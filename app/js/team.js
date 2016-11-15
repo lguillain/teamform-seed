@@ -10,28 +10,44 @@ $(document).ready(function(){
 
 });
 
-angular.module('teamform-team-app', ['firebase'])
+angular.module('teamformApp')
 .controller('TeamCtrl', ['$scope', '$firebaseObject', '$firebaseArray', 
     function($scope, $firebaseObject, $firebaseArray) {
 		
 	// Call Firebase initialization code defined in site.js
-	initalizeFirebase();
+	//initalizeFirebase();
 
 	var refPath = "";
 	var eventName = getURLParameter("q");	
 	
-	// TODO: implementation of MemberCtrl	
-	$scope.param = {
+	$scope.input= {
 		"teamName" : '',
+		"description": "hi we're cool",
 		"currentTeamSize" : 0,
+		"tags":[],
 		"teamMembers" : []
 	};
+
+	$scope.addEvent = function() {			
+			// update the date
+			if ( $scope.input.name != "" && $scope.input.description != "" && $scope.tags != "") {
+				$scope.input.admin = firebase.auth().currentUser.uid;
+				$scope.input.created = new Date().toString();
+				var re = new RegExp(", |,");
+				var tags = $scope.tags.split(re);
+				if (tags[tags.length - 1] == "")
+					tags.splice(tags.length - 1,1);
+				alert(tags);
+				$scope.input.tags = tags;
+				// add an input event
+				$scope.events.$add($scope.input);
+			} else alert("please complete all requiered fields before proceeding");
+	}
 		
 	
 
 	refPath =  eventName + "/admin";
 	retrieveOnceFirebase(firebase, refPath, function(data) {	
-
 		if ( data.child("param").val() != null ) {
 			$scope.range = data.child("param").val();
 			$scope.param.currentTeamSize = parseInt(($scope.range.minTeamSize + $scope.range.maxTeamSize)/2);
@@ -74,11 +90,6 @@ angular.module('teamform-team-app', ['firebase'])
 		$scope.$apply();
 		
 	}
-	
-	
-	
-	
-	
 	
 
 	$scope.changeCurrentTeamSize = function(delta) {

@@ -90,10 +90,9 @@ footer {
 	padding: 50px 0px;
 }
 footer p {
-	font-size: 24px;
+	font-size: 18px;
 	color: #BCAAA4;
 }
-
 .btm-right{
 	position: fixed;
 	bottom: 10px;
@@ -125,4 +124,17 @@ footer p {
 	color: white;
 	font-family: 'Montserrat', serif;
 	font-size: 0.4em;
+}
+.navbar-custom .nav .dropdown-menu>li>a{
+	font-size: 0.8em;
+	color: #1E88E5;
+}
+.dropdown{
+	font-family: 'Montserrat', serif;
+	display: inline;
+	float: right;
+}
+.dropdown button{
+	padding-top: 0px;
+	margin-bottom: 20px;
 }
