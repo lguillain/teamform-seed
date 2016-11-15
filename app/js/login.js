@@ -87,7 +87,7 @@ app.controller("AuthCtrl", ['$scope', 'loginService', '$state',
     //change value of isLogged in if user logs in or out
     firebase.auth().onAuthStateChanged(function (user) {
        $scope.isLoggedIn = loginService.isLoggedIn.get();
-      // $scope.$digest();
+       $scope.$digest();
        if(user)$state.transitionTo("createProfile");
        
     });
