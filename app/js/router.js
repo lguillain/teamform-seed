@@ -1,4 +1,4 @@
-var app = angular.module('teamformApp', ['ui.router']);
+var app = angular.module('teamformApp', ['ui.router', 'firebase']);
 app.config(function ($stateProvider, $urlRouterProvider) {
 	$stateProvider
 		//route for the home page
@@ -10,12 +10,14 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 		.state('myProfile', {
 			url: '/profile',
 			templateUrl: 'pages/createProfile.html',
+			controller: 'myProfileCtrl',
 			authenticate: true
 		})
 
 		.state('userProfile', {
 			url: '/userprofile',
 			templateUrl: 'pages/userProfile.html',
+			controller: 'myProfileCtrl',
 			authenticate: true
 		})
 
@@ -35,11 +37,19 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 		.state('createEvent', {
 			url: "/createEvent",
 			templateUrl: 'pages/createEvent.html',
+			controller: 'CreateCtrl',
+			authenticate: true
+		})
+
+		.state('createTeam', {
+			url: "/createTeam",
+			templateUrl: 'pages/createTeam.html',
+			controller: 'TeamCtrl',
 			authenticate: true
 		})
 
 		.state('eventPage', {
-			url: "eventPage",
+			url: "/eventPage",
 			templateUrl: 'pages/event_info.html',
 			authenticate: false
 		})
@@ -49,9 +59,9 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 			templateUrl: 'pages/event_admin.html',
 			authenticate: true
 		})
-		$urlRouterProvider.otherwise("about");
+		$urlRouterProvider.otherwise("/about");
 })
-.run(function ($rootScope, $state, loginService) {
+.run(function ($rootScope, $state, loginService, myProfileService) {
 
 
   $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
@@ -60,6 +70,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       $state.transitionTo("about");
       event.preventDefault(); 
     }
+
+	if(toState.url=='/profile' || toState.url=='/userprofile' ){
+		myProfileService.queryData();
+	}
 
   	});
 });
