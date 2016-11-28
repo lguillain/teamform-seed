@@ -30,9 +30,9 @@ app.controller('createEventCtrl',
 				var currentUser = firebase.auth().currentUser;
 				$scope.input.admin = currentUser.uid;
 				$scope.input.created = new Date().toString();
-				var re1 = new RegExp(", ");
-				var re2 = new RegExp(",");
-				var tags = $scope.tags.split(re1||re2);
+				var inputtags = $('#tags').tokenfield('getTokensList');
+				var re = new RegExp(", |,");
+				var tags = inputtags.split(re);
 				if (tags[tags.length - 1] == "")
 					tags.splice(tags.length - 1, 1);
 				$scope.input.tags = tags;
@@ -106,3 +106,39 @@ app.controller('createEventCtrl',
 	     }
 
 	});
+	
+// app.directive('autoComplete', function(autoCompleteDataService) {
+//     return {
+//         restrict: 'A',
+//         link: function(scope, elem, attr, ctrl) {
+//                     // elem is a jquery lite object if jquery is not present,
+//                     // but with jquery and jquery ui, it will be a full jquery object.
+//             elem.autocomplete({
+//                 source: ["Computer Science","Java","C++","Python"], //from your service
+//                 minLength: 1,
+//                 source: function( request, response ) {
+//           // delegate back to autocomplete, but extract the last term
+//           response( $.ui.autocomplete.filter(
+//             availableTags, extractLast( request.term ) ) );
+//         },
+//         focus: function() {
+//           // prevent value inserted on focus
+//           return false;
+//         },
+//         select: function( event, ui ) {
+//           var terms = split( this.value );
+//           // remove the current input
+//           terms.pop();
+//           // add the selected item
+//           terms.push( ui.item.value );
+//           // add placeholder to get the comma-and-space at the end
+//           terms.push( "" );
+//           this.value = terms.join( "," );
+//           
+//           return false;
+//             }
+//             });
+//             
+//         }
+//     };
+// });

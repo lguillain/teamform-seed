@@ -9,6 +9,7 @@ module.exports = function(config) {
     'lib/angular.js',
     'lib/firebase.js',
     'lib/angularfire.min.js',
+    'lib/angular-mocks.js',
     'js/router.js',
     'js/!(router).js',
     'unit_tests/*.js'	  
